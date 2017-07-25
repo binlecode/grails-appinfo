@@ -1,0 +1,15 @@
+Thumbs.db
+.DS_Store
+.gradle
+build/
+.idea
+.idea/*
+*.iml
+*.ipr
+*.iws
+.project
+.settings
+.classpath
+
+actuator-ui
+de-plg-sys-support
