@@ -11,21 +11,22 @@ system details, health-check, configuration and monitoring at runtime.
 This Grails plugin builds on top of spring boot actuator API with Grails specific
 enhancements on stock actuator endpoints. 
 
-Besides REST JSON endpoints enhancement, this plugin also provides a monitoring
-dashboard inspired by from [grails-actuator-ui](https://github.com/dmahapatro/grails-actuator-ui).
+To consume actuator JSON endpoints, the testing Grails application also provides a monitoring
+dashboard inspired by [grails-actuator-ui](https://github.com/dmahapatro/grails-actuator-ui).
 
-The UI console is built on bootstrap with CSS framework from [AdminLTE](https://adminlte.io/). 
+The dashboard UI is built on bootstrap with CSS framework from [AdminLTE](https://adminlte.io/). 
 
-This repository contains source code of Grails-appinfo plugin, and a testing sample host Grails application.
+This repository contains source code of Grails-appinfo plugin, and a testing host Grails application.
 
 ## INSTALL
 
 In host Grails application's build.gradle file:
 
-	plugins {
-    	compile ':grails-appinfo:$version'
-	}
-
+```groovy
+plugins {
+    compile ':grails-appinfo:$version'
+}
+```
 
 ## PREREQUISITES
 
@@ -37,17 +38,19 @@ Hosting Grails application version 3.0+.
 
 In host Grails application grails-app/conf/application.yml
 
-    # Appinfo grails plugin settings
-    appinfo:
-        urlList:   # list of webservice endpoints to check
-            - url: 'http://localhost:8080'
-              name: 'web root'   # name of the endpoint
-              method: 'GET'      # http method, default to 'HEAD' if not given
-            - url: 'http://localhost:8080/info'
-              name: 'web_info'
-        aws:
-            s3:
-                bucket: 'dda-de-dev'  # bucket name used in s3 health check
+```yaml
+# Appinfo grails plugin settings
+appinfo:
+    urlList:   # list of webservice endpoints to check
+        - url: 'http://localhost:8080'
+          name: 'web root'   # name of the endpoint
+          method: 'GET'      # http method, default to 'HEAD' if not given
+        - url: 'http://localhost:8080/info'
+          name: 'web_info'
+    aws:
+        s3:
+            bucket: 'dda-de-dev'  # bucket name used in s3 health check
+```
 
 ## CONTRIBUTORS
 

@@ -55,12 +55,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     Closure doWithSpring() {
         { ->
 
-            appinfoConfig(GrailsAppinfoConfig) {
-                endpointsProperties = config.getProperty('endpoints', Map, [:])
-                managementProperties = config.getProperty('management', Map, [:])
-                appinfoConfig = config.appinfo
-            }
-
+            // appinfo plugin Grails config holder
             def aiConfig = config.appinfo
 
             // ** health endpoint enhancement **
