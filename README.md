@@ -8,11 +8,13 @@ Grails plugin to check and monitor application status with a dashboard UI
 Grails-appinfo Grails plugin is a set of convenient utilities for application 
 system details, health-check, configuration and monitoring at runtime.
 
-This Grails plugin builds on top of spring boot actuator API and enhances its
-endpoints. It also builds a bootstrap based monitoring UI console by leveraging
-CSS and chart builders from [grails-actuator-ui](https://github.com/dmahapatro/grails-actuator-ui).
+This Grails plugin builds on top of spring boot actuator API with Grails specific
+enhancements on stock actuator endpoints. 
 
-**All the credits of bootstrap custom UI styles go to the grails-actuator-ui plugin authors.**
+Besides REST JSON endpoints enhancement, this plugin also provides a monitoring
+dashboard inspired by from [grails-actuator-ui](https://github.com/dmahapatro/grails-actuator-ui).
+
+The UI console is built on bootstrap with CSS framework from [AdminLTE](https://adminlte.io/). 
 
 This repository contains source code of Grails-appinfo plugin, and a testing sample host Grails application.
 
