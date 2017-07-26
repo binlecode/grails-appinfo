@@ -55,10 +55,15 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     Closure doWithSpring() {
         { ->
 
-            def aiConfig = config.appinfo
-            log.info "appinfo config: $aiConfig"
+            appinfoConfig(GrailsAppinfoConfig) {
+                endpointsProperties = config.getProperty('endpoints', Map, [:])
+                managementProperties = config.getProperty('management', Map, [:])
+                appinfoConfig = config.appinfo
+            }
 
-            // ** health endpoint **
+            def aiConfig = config.appinfo
+
+            // ** health endpoint enhancement **
 
             diskSpaceHealthIndicatorProperties(DiskSpaceHealthIndicatorProperties) {
                 threshold = 250 * 1024 * 1024
@@ -96,7 +101,9 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
-            // ** info endpoint **
+            // ** info endpoint enhancement **
+
+            //todo: add enabling config for each infoContributor
 
             grailsSystemInfoContributor(GrailsSystemInfoContributor) {
                 grailsApplication = grailsApplication

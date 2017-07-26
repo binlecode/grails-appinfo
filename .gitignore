@@ -10,6 +10,3 @@ build/
 .project
 .settings
 .classpath
-
-actuator-ui
-de-plg-sys-support
