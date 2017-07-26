@@ -1,10 +1,9 @@
 package grails.plugin.appinfo
 
 
-class GrailsAppinfoConfig {
+class ActuatorConfig {
     def endpointsProperties  // to catch spring-boot endpoints properties
     def managementProperties // to catch spring-boot management properties
-    def appinfoConfig        // appinfo specific config handler
 
     boolean isMonitoringEnabled() {
         // If there is no configuration for endpoint or endpoints config does not have 'enabled' config or when enabled

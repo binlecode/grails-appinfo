@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-version "0.1"
+version "0.2"
 group "test.grails.appinfo"
 
 apply plugin:"eclipse"
@@ -57,10 +57,9 @@ dependencies {
 
     compile project(':grails-appinfo')
 
+    runtime 'org.grails.plugins:grails-console:2.0.8'  // runtime web console
     compile group: 'org.grails.plugins', name: 'aws-sdk', version: '1.10.44'
     compile "org.grails.plugins:mongodb:6.0.11"
-    runtime 'org.grails.plugins:grails-console:2.0.8'  // runtime web console
-    compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7"  // used by endpoint healthcheck
 }
 
 bootRun {

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 class LoggingInfoService {
     static transactional = false
 
-    /*** logger manangement ***/
+    /** logger management **/
 
     static final Map LOG_LEVELS = [
             ALL:   Level.ALL,
@@ -108,7 +108,7 @@ class LoggingInfoService {
      * Set a logger's level.
      *
      * @param loggerName the logger name
-     * @param levelName one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+     * @param levelName one of ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF
      */
     void setLogLevel(String loggerName, String levelName) {
         Level level = LOG_LEVELS[levelName]
