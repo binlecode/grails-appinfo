@@ -16,7 +16,7 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.2.3 > *"
 
-    def loadAfter = ['services', 'mongodb', 'aws-sdk']
+    def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
@@ -70,7 +70,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             config.dataSources?.each {
                 def dsNameSuffix = (!it.key || it.key == 'dataSource') ? '' : "_${it.key}"
-                def ds = grailsApplication.mainContext.getBean("dataSource$dsNameSuffix")
+                def ds = ref("dataSource$dsNameSuffix")
                 "databaseHealthCheck${dsNameSuffix}"(DataSourceHealthIndicator, ds)
             }
 
@@ -88,8 +88,8 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
-            aiConfig.urlList?.eachWithIndex { urlConfig, idx ->
-                "${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}_urlHealthCheck"(UrlHealthIndicator, urlConfig.url) {
+            aiConfig.urls?.eachWithIndex { urlConfig, idx ->
+                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
                     if (urlConfig.method) {
                         method = urlConfig.method
                     }
