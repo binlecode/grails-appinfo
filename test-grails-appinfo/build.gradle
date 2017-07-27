@@ -57,6 +57,7 @@ dependencies {
 
     compile project(':grails-appinfo')
 
+    compile 'joda-time:joda-time:2.8.2'  // used in ui dashboard service
     runtime 'org.grails.plugins:grails-console:2.0.8'  // runtime web console
     compile group: 'org.grails.plugins', name: 'aws-sdk', version: '1.10.44'
     compile "org.grails.plugins:mongodb:6.0.11"

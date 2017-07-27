@@ -146,7 +146,6 @@ grails:
 # MongoDB settings
 grails:
     mongodb:
-        # url: "mongodb://prp_user:prpuser@10.164.22.189/de_prp"  # DEV mongodb
         url: "mongodb://localhost/test_grails_appinfo"
 
 # Appinfo grails plugin settings
