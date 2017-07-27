@@ -23,6 +23,7 @@ class MongodbHealthIndicator extends AbstractHealthIndicator {
         try {
             def db
             if (mongodbConfig.url) {
+                builder.withDetail('url', mongodbConfig.url)
                 db = mongodbConfig.url.split('/')[-1]
             } else {
                 db = mongodbConfig.databaseName

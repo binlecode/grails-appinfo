@@ -16,8 +16,11 @@ class UrlHealthIndicator extends AbstractHealthIndicator {
 
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
-        final HttpURLConnection urlConnection = (HttpURLConnection) url.toURL().openConnection()
+        builder.withDetail('url', url)
+        builder.withDetail('method', method)
+        builder.withDetail('timeout.threshold', "${timeout} ms".toString())
 
+        final HttpURLConnection urlConnection = (HttpURLConnection) url.toURL().openConnection()
         final int responseCode = urlConnection.with {
             requestMethod = method
             readTimeout = timeout
@@ -25,11 +28,6 @@ class UrlHealthIndicator extends AbstractHealthIndicator {
             connect()
             responseCode
         }
-
-        builder.withDetail('url', url)
-        builder.withDetail('method', method)
-        builder.withDetail('timeout.threshold', "${timeout} ms".toString())
-
         // If code in 200 to 399 range everything is fine.
         if (responseCode in (200..399)) {
             builder.up()
