@@ -151,12 +151,18 @@ grails:
 
 # Appinfo grails plugin settings
 appinfo:
-    urls:
-        - url: 'http://localhost:8080'
-          name: 'web root'
-          method: 'GET'
-        - url: 'http://localhost:8080/info'
-          name: 'web_info'
-    aws:
-        s3:
-            bucket: 'dda-de-dev'
+    health:
+        urls:
+            - url: 'http://localhost:8080'
+              name: 'web root'
+              method: 'GET'
+            - url: 'http://localhost:8080/info'
+              name: 'web_info'
+        aws:
+            s3:
+                bucket: 'dda-de-dev'
+    info:
+        system: true
+#        runtime: true
+        bean: true
+

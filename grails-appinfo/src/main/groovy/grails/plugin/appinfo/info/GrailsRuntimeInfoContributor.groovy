@@ -1,5 +1,6 @@
 package grails.plugin.appinfo.info
 
+import grails.core.GrailsApplication
 import org.springframework.boot.actuate.info.Info
 import org.springframework.boot.actuate.info.InfoContributor
 
@@ -9,8 +10,7 @@ import java.lang.management.ThreadMXBean
 
 class GrailsRuntimeInfoContributor implements InfoContributor {
     private static final ThreadMXBean threadManagementBean = ManagementFactory.getThreadMXBean()
-    def grailsApplication
-
+    GrailsApplication grailsApplication
 
     @Override
     void contribute(Info.Builder builder) {

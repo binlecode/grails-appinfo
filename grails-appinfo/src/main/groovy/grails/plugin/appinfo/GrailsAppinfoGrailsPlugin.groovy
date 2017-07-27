@@ -3,6 +3,7 @@ package grails.plugin.appinfo
 import grails.plugin.appinfo.health.AwsS3HealthIndicator
 import grails.plugin.appinfo.health.MongodbHealthIndicator
 import grails.plugin.appinfo.health.UrlHealthIndicator
+import grails.plugin.appinfo.info.GrailsBeanInfoContributor
 import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.*
@@ -82,13 +83,14 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             if (config.grails.plugin.awssdk) {
                 s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
-                    if (aiConfig) {
-                        s3Config = aiConfig
+                    def s3Cfg = aiConfig.health.aws.s3
+                    if (s3Cfg) {
+                        s3Config = s3Cfg
                     }
                 }
             }
 
-            aiConfig.urls?.eachWithIndex { urlConfig, idx ->
+            aiConfig.health.urls?.each { urlConfig ->
                 "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
                     if (urlConfig.method) {
                         method = urlConfig.method
@@ -100,12 +102,22 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             //todo: add enabling config for each infoContributor
 
-            grailsSystemInfoContributor(GrailsSystemInfoContributor) {
-                grailsApplication = grailsApplication
+            if (Boolean.parseBoolean(aiConfig.info?.system?.toString())) {
+                grailsSystemInfoContributor(GrailsSystemInfoContributor) {
+                    grailsApplication = grailsApplication
+                }
             }
 
-            grailsRuntimeInfoContributor(GrailsRuntimeInfoContributor) {
-                grailsApplication = grailsApplication
+            if (Boolean.parseBoolean(aiConfig.info?.bean?.toString())) {
+                grailsBeanInfoContributor(GrailsBeanInfoContributor) {
+                    grailsApplication = grailsApplication
+                }
+            }
+
+            if (Boolean.parseBoolean(aiConfig.info?.runtime?.toString())) {
+                grailsRuntimeInfoContributor(GrailsRuntimeInfoContributor) {
+                    grailsApplication = grailsApplication
+                }
             }
 
         } }

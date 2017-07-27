@@ -30,9 +30,10 @@ class AwsS3HealthIndicator extends AbstractHealthIndicator {
             def endpoint = s3.getEndpoint()
             builder.withDetail('endpoint', endpoint)
 
-            if (s3Config.aws.s3.bucket) {
-                def bucketExist = s3.doesBucketExist(s3Config.aws.s3.bucket)
-                builder.withDetail('bucket', s3Config.aws.s3.bucket)
+            String bucket = s3Config.bucket
+            if (bucket) {
+                def bucketExist = s3.doesBucketExist(bucket)
+                builder.withDetail('bucket', bucket)
                 builder.withDetail('bucketExist', bucketExist)
             }
 
