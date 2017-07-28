@@ -34,11 +34,14 @@ class AwsS3HealthIndicator extends AbstractHealthIndicator {
             if (bucket) {
                 builder.withDetail('bucket', bucket)
 
-                def bucketExist = s3.doesBucketExist(bucket)
-                builder.withDetail('bucketExist', bucketExist)
+                if (s3.doesBucketExist(bucket)) {
+                    builder.up()
+                } else {
+                    builder.down(new Exception('S3 check fail: bucket does not exist'))
+                }
+            } else {
+                builder.down(new Exception('S3 check fail: bucket not set'))
             }
-
-            builder.up()
         } catch (ex) {
             builder.down(new Exception("S3 check fail: ${ex.message ?: ex.toString()}"))
         }
