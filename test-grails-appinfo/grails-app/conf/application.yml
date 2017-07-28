@@ -164,4 +164,5 @@ appinfo:
         system: true
 #        runtime: true
         bean: true
+        logging: true
 

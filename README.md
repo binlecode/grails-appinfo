@@ -41,15 +41,21 @@ In host Grails application grails-app/conf/application.yml
 ```yaml
 # Appinfo grails plugin settings
 appinfo:
-    urlList:   # list of webservice endpoints to check
-        - url: 'http://localhost:8080'
-          name: 'web root'   # name of the endpoint
-          method: 'GET'      # http method, default to 'HEAD' if not given
-        - url: 'http://localhost:8080/info'
-          name: 'web_info'
-    aws:
-        s3:
-            bucket: 'dda-de-dev'  # bucket name used in s3 health check
+    health:
+        urlList:   # list of webservice endpoints to check
+            - url: 'http://localhost:8080'
+              name: 'web root'   # name of the endpoint
+              method: 'GET'      # http method, default to 'HEAD' if not given
+            - url: 'http://localhost:8080/info'
+              name: 'web_info'
+        aws:
+            s3:
+                bucket: 'dda-de-dev'  # bucket name used in s3 health check
+    info:
+        system: true
+        runtime: true
+        bean: true
+        logging: true
 ```
 
 ## CONTRIBUTORS
