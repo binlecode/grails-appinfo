@@ -1,7 +1,7 @@
 # grails-appinfo
 Grails plugin to check and monitor application status with a dashboard UI
 
-
+[![Build Status](https://travis-ci.org/binlecode/grails-appinfo.svg?branch=master)](https://travis-ci.org/binlecode/grails-appinfo)
  
 ## INTRODUCTION 
 
