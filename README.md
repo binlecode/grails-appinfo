@@ -50,7 +50,12 @@ appinfo:
               name: 'web_info'
         aws:
             s3:
-                bucket: 'dda-de-dev'  # bucket name used in s3 health check
+                # either:
+                bucket: 'bucket-name'  # bucket name used in s3 health check
+                # or: (for multiple buckets)
+                #buckets:
+                #    - 'bucket-name'
+                #    - 'another-bucket-name'
     info:
         system: true
         runtime: true
