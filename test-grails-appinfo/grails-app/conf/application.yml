@@ -159,7 +159,7 @@ appinfo:
               name: 'web_info'
         aws:
             s3:
-                bucket: 'dda-de-dev'
+                bucket: 'some-bucket'
     info:
         system: true
 #        runtime: true
