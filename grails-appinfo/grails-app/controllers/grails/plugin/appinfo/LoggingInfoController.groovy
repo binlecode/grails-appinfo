@@ -1,6 +1,4 @@
-package test.grails.appinfo
-
-import grails.plugin.appinfo.LoggingInfoService
+package grails.plugin.appinfo
 
 class LoggingInfoController {
     def loggingInfoService

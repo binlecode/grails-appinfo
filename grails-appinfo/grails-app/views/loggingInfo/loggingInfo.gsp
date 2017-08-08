@@ -1,7 +1,6 @@
 <head>
     <meta name="layout" content="main" />
     <title>System logging info about ${meta(name: 'app.name')}"/></title>
-    %{--<g:javascript library="jquery" plugin="jquery"/>--}%
     <asset:javascript src="application.js"/>
 </head>
 <body>
