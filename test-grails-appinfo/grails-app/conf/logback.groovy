@@ -38,5 +38,16 @@ else {
     root(ERROR, ['STDOUT'])
 }
 
+def loggerList = ['STDOUT']
 
-logger('grails.plugin.appinfo', DEBUG, ['STDOUT'], false)
+logger('grails.app.controllers', DEBUG, loggerList, false)
+logger('grails.app.services', DEBUG, loggerList, false)
+logger('grails.app.jobs', DEBUG, loggerList, false)
+logger('grails.app.domain', DEBUG, loggerList, false)
+logger('grails.app.taglibs', DEBUG, loggerList, false)
+logger('grails.app.init', DEBUG, loggerList, false)
+
+logger('org.apache.http.headers', INFO, loggerList, false)
+//    logger('org.apache.http.wire', DEBUG, loggerList, false)
+
+logger('grails.plugin.appinfo', DEBUG, loggerList, false)
