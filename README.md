@@ -59,7 +59,6 @@ appinfo:
     info:
         system: true
         runtime: true
-        bean: true
         logging: true
 ```
 
