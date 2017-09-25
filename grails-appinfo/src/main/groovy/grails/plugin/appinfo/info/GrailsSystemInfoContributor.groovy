@@ -1,6 +1,7 @@
 package grails.plugin.appinfo.info
 
 import grails.core.GrailsApplication
+import grails.core.GrailsClass
 import grails.util.Holders
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.boot.actuate.info.Info
@@ -31,7 +32,6 @@ class GrailsSystemInfoContributor implements InfoContributor {
                     version: p.version
             ]
         }
-
         def domains = grailsApplication.domainClasses.collect { d ->
             [
                     name: d.fullName,
@@ -73,6 +73,14 @@ class GrailsSystemInfoContributor implements InfoContributor {
                     tagNames: t.tagNames
             ]
         }
+        def codecs = grailsApplication.codecClasses.sort { it.fullName }.collect { GrailsClass t ->
+            [
+                    name: t.name,
+                    logicalPropertyName: t.logicalPropertyName,
+                    isAbstract: t.isAbstract(),
+                    packageName: t.packageName
+            ]
+        }
         def urlMappings = grailsApplication.urlMappingsClasses.sort { it.fullName }.collect { t ->
             [
                     name: t.name,
@@ -109,6 +117,7 @@ class GrailsSystemInfoContributor implements InfoContributor {
                 domains: domains,
                 services: services,
                 tagLibs: tagLibs,
+                codecs: codecs,
                 urlMappings: urlMappings,
                 bootstraps: bootstraps,
                 jobs: jobs
