@@ -66,7 +66,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
             }
 
             if (config.dataSource) {
-                databaseHealthCheck(DataSourceHealthIndicator, dataSource)
+                databaseHealthCheck(DataSourceHealthIndicator, ref('dataSource'))
             }
 
             config.dataSources?.each {

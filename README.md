@@ -62,6 +62,13 @@ appinfo:
         logging: true
 ```
 
+## CHANGELOG
+
+#### v0.9
+* support both multi-dataSources and single dataSource in health check
+* support mongodb in health check
+
+
 ## CONTRIBUTORS
 
 Bin Le (bin.le.code@gmail.com)
