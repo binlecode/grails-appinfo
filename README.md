@@ -59,14 +59,12 @@ appinfo:
     info:
         system: true
         runtime: true
-        logging: true
 ```
 
 ## CHANGELOG
 
-#### v0.9
-* support both multi-dataSources and single dataSource in health check
-* support mongodb in health check
+#### v2.0
+* support Grails 3.3.x with Spring Boot 1.5.x and GORM 6.1.x
 
 
 ## CONTRIBUTORS

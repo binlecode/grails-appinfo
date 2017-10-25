@@ -5,30 +5,23 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.8.2"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
     }
 }
 
-version "0.9.1"
+version "2.0"  // 2.x is for Grails 3.3.x
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"org.grails.grails-plugin"
 apply plugin:"org.grails.grails-plugin-publish"
-apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
+apply plugin:"org.grails.grails-gsp"
 
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$grailsVersion"
-    }
-    applyMavenExclusions false
 }
 
 dependencies {
@@ -37,25 +30,38 @@ dependencies {
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
+    compile "org.grails:grails-logging"
+    compile "org.grails:grails-plugin-rest"
+    compile "org.grails:grails-plugin-databinding"
+    compile "org.grails:grails-plugin-i18n"
+    compile "org.grails:grails-plugin-services"
+    compile "org.grails:grails-plugin-url-mappings"
+    compile "org.grails:grails-plugin-interceptors"
     compile "org.grails.plugins:cache"
+    compile "org.grails.plugins:async"
     compile "org.grails.plugins:scaffolding"
+    compile "org.grails.plugins:gsp"
     console "org.grails:grails-console"
     profile "org.grails.profiles:web-plugin"
     provided "org.grails:grails-plugin-services"
     provided "org.grails:grails-plugin-domain-class"
-    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.8.2"
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+    testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
+    testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
 
 bootRun {
-    jvmArgs = ['-Dspring.output.ansi.enabled=always']
-}// enable if you wish to package this plugin as a standalone application
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    addResources = true
+}
+// enable if you wish to package this plugin as a standalone application
 bootRepackage.enabled = false
+
 grailsPublish {
     // load bintray user and key from jvm -Dvar for security
     user = System.getProperty('bintrayUser')
@@ -64,7 +70,7 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
+    title = "Grails Appinfo plugin"
     desc = "A Grails plugin to provide applicaiton system information for health-check and runtime inspection"
     developers = [binle: "Bin Le"]
 //    portalUser = ""

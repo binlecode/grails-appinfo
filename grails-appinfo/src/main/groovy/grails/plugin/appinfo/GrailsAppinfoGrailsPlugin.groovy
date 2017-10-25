@@ -3,10 +3,9 @@ package grails.plugin.appinfo
 import grails.plugin.appinfo.health.AwsS3HealthIndicator
 import grails.plugin.appinfo.health.MongodbHealthIndicator
 import grails.plugin.appinfo.health.UrlHealthIndicator
-import grails.plugin.appinfo.info.GrailsLoggingInfoContributor
 import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
-import grails.plugins.Plugin
+import grails.plugins.*
 import groovy.util.logging.Slf4j
 import org.springframework.boot.actuate.health.DataSourceHealthIndicator
 import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorProperties
@@ -15,7 +14,7 @@ import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorPropertie
 class GrailsAppinfoGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.2.3 > *"
+    def grailsVersion = "3.3.0 > *"
 
     def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
 
@@ -24,7 +23,6 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
         "grails-app/views/error.gsp"
     ]
 
-    // TODO Fill in these fields
     def title = "Appinfo Grails plugin application" // Headline display name of the plugin
     def author = "Bin Le"
     def authorEmail = "bin.le.code@gmail.com"
@@ -53,72 +51,65 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
-    Closure doWithSpring() {
-        { ->
+    Closure doWithSpring() { {->
 
-            // appinfo plugin Grails config holder
-            def aiConfig = config.appinfo
+        // appinfo plugin Grails config holder
+        def aiConfig = config.appinfo
 
-            // ** health endpoint enhancement **
+        // ** health endpoint enhancement **
 
-            diskSpaceHealthIndicatorProperties(DiskSpaceHealthIndicatorProperties) {
-                threshold = 250 * 1024 * 1024
-            }
+        //todo: remove this bean as it is supported in SpringBoot 1.5 actuator, unless disk threshold should be customized
+//        diskSpaceHealthIndicatorProperties(DiskSpaceHealthIndicatorProperties) {
+//            threshold = 250 * 1024 * 1024
+//        }
 
-            if (config.dataSource) {
-                databaseHealthCheck(DataSourceHealthIndicator, ref('dataSource'))
-            }
+        if (config.dataSource) {
+            databaseHealthCheck(DataSourceHealthIndicator, ref('dataSource'))
+        }
 
-            config.dataSources?.each {
-                def dsNameSuffix = (!it.key || it.key == 'dataSource') ? '' : "_${it.key}"
-                def ds = ref("dataSource$dsNameSuffix")
-                "databaseHealthCheck${dsNameSuffix}"(DataSourceHealthIndicator, ds)
-            }
+        config.dataSources?.each {
+            def dsNameSuffix = (!it.key || it.key == 'dataSource') ? '' : "_${it.key}"
+            def ds = ref("dataSource$dsNameSuffix")
+            "databaseHealthCheck${dsNameSuffix}"(DataSourceHealthIndicator, ds)
+        }
 
-            if (config.grails.mongodb) {
-                mongodbHealthCheck(MongodbHealthIndicator,
-                    ref('mongo'), config.grails.mongodb
-                )
-            }
+        if (config.grails.mongodb) {
+            mongodbHealthCheck(MongodbHealthIndicator, ref('mongo'), config.grails.mongodb
+            )
+        }
 
-            if (config.grails.plugin.awssdk) {
-                s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
-                    def s3Cfg = aiConfig?.health?.aws?.s3
-                    if (s3Cfg) {
-                        s3Config = s3Cfg
-                    }
+        if (config.grails.plugin.awssdk) {
+            s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
+                def s3Cfg = aiConfig?.health?.aws?.s3
+                if (s3Cfg) {
+                    s3Config = s3Cfg
                 }
             }
+        }
 
-            aiConfig?.health?.urls?.each { urlConfig ->
-                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
-                    if (urlConfig.method) {
-                        method = urlConfig.method
-                    }
+        aiConfig?.health?.urls?.each { urlConfig ->
+            "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
+                if (urlConfig.method) {
+                    method = urlConfig.method
                 }
             }
+        }
 
-            // ** info endpoint enhancement **
+        // ** info endpoint enhancement **
 
-            if (Boolean.parseBoolean(aiConfig?.info?.system?.toString())) {
-                grailsSystemInfoContributor(GrailsSystemInfoContributor) {
-                    grailsApplication = grailsApplication
-                }
+        if (Boolean.parseBoolean(aiConfig?.info?.system?.toString())) {
+            grailsSystemInfoContributor(GrailsSystemInfoContributor) {
+                grailsApplication = grailsApplication
             }
+        }
 
-            if (Boolean.parseBoolean(aiConfig?.info?.logging?.toString())) {
-                grailsLoggingInfoContributor(GrailsLoggingInfoContributor) {
-                    grailsApplication = grailsApplication
-                }
+        if (Boolean.parseBoolean(aiConfig?.info?.runtime?.toString())) {
+            grailsRuntimeInfoContributor(GrailsRuntimeInfoContributor) {
+                grailsApplication = grailsApplication
             }
+        }
 
-            if (Boolean.parseBoolean(aiConfig?.info?.runtime?.toString())) {
-                grailsRuntimeInfoContributor(GrailsRuntimeInfoContributor) {
-                    grailsApplication = grailsApplication
-                }
-            }
-
-        } }
+    } }
 
     void doWithDynamicMethods() {
         // TODO Implement registering dynamic methods to classes (optional)
