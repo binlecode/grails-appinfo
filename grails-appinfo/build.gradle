@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-version "0.9.1"
+version "1.0"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -64,7 +64,7 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
+    title = "Grails Appinfo plugin"
     desc = "A Grails plugin to provide applicaiton system information for health-check and runtime inspection"
     developers = [binle: "Bin Le"]
 //    portalUser = ""

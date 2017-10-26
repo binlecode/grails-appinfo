@@ -59,10 +59,13 @@ appinfo:
     info:
         system: true
         runtime: true
-        logging: true
 ```
 
 ## CHANGELOG
+
+#### v1.0
+* stable release for Grails 3.2.x, with Spring Boot 1.4 and GORM 6.0
+* removed custom logging info Indicator and management webstack since it is already provided by acuator
 
 #### v0.9
 * support both multi-dataSources and single dataSource in health check

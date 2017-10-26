@@ -3,7 +3,6 @@ package grails.plugin.appinfo
 import grails.plugin.appinfo.health.AwsS3HealthIndicator
 import grails.plugin.appinfo.health.MongodbHealthIndicator
 import grails.plugin.appinfo.health.UrlHealthIndicator
-import grails.plugin.appinfo.info.GrailsLoggingInfoContributor
 import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.Plugin
@@ -15,7 +14,7 @@ import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorPropertie
 class GrailsAppinfoGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.2.3 > *"
+    def grailsVersion = "3.2.0 > *"
 
     def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
 
@@ -102,12 +101,6 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             if (Boolean.parseBoolean(aiConfig?.info?.system?.toString())) {
                 grailsSystemInfoContributor(GrailsSystemInfoContributor) {
-                    grailsApplication = grailsApplication
-                }
-            }
-
-            if (Boolean.parseBoolean(aiConfig?.info?.logging?.toString())) {
-                grailsLoggingInfoContributor(GrailsLoggingInfoContributor) {
                     grailsApplication = grailsApplication
                 }
             }
