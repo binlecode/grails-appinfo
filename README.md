@@ -42,6 +42,10 @@ In host Grails application grails-app/conf/application.yml
 # Appinfo grails plugin settings
 appinfo:
     health:
+        mongodb:
+            # hide or show password in the mongodb connection url if it contains credential info
+            # if set to false (default if not set), the password will be replaced as '<pswd>'
+            showPassword: false  # default to false
         urls:   # list of webservice endpoints to check
             - url: 'http://localhost:8080'
               name: 'web root'   # name of the endpoint
@@ -62,6 +66,9 @@ appinfo:
 ```
 
 ## CHANGELOG
+
+#### v1.1
+* add password shadowing option for mongodb connection url
 
 #### v1.0
 * stable release for Grails 3.2.x, with Spring Boot 1.4 and GORM 6.0
