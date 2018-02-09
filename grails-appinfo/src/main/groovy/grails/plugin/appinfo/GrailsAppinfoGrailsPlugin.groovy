@@ -74,12 +74,14 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 "databaseHealthCheck${dsNameSuffix}"(DataSourceHealthIndicator, ds)
             }
 
+            // first check mongodb grails plugin config, then load appinfo.health.mongodb config
             if (config.grails.mongodb) {
                 mongodbHealthCheck(MongodbHealthIndicator,
-                    ref('mongo'), config.grails.mongodb
+                    ref('mongo'), config.grails.mongodb, aiConfig?.health?.mongodb
                 )
             }
 
+            // first check awssdk grails config, then load appinfo.health.aws.s3 config
             if (config.grails.plugin.awssdk) {
                 s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
                     def s3Cfg = aiConfig?.health?.aws?.s3
@@ -89,6 +91,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
+            // check and load appinfo.health.urls config
             aiConfig?.health?.urls?.each { urlConfig ->
                 "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
                     if (urlConfig.method) {
