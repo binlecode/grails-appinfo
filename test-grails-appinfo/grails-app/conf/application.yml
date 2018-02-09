@@ -154,6 +154,8 @@ grails:
 # Appinfo grails plugin settings
 appinfo:
     health:
+        mongodb:
+            showPassword: false
         urls:
             - url: 'http://localhost:8080'
               name: 'web root'
