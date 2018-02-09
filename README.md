@@ -42,7 +42,7 @@ In host Grails application grails-app/conf/application.yml
 # Appinfo grails plugin settings
 appinfo:
     health:
-        urlList:   # list of webservice endpoints to check
+        urls:   # list of webservice endpoints to check
             - url: 'http://localhost:8080'
               name: 'web root'   # name of the endpoint
               method: 'GET'      # http method, default to 'HEAD' if not given
