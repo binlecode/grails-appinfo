@@ -44,14 +44,13 @@ class GrailsRuntimeInfoContributor implements InfoContributor {
         infos
     }
 
-
     private static double nanosToMilis(long ns) {
         ns / ((double) 1000000)
     }
 
     def getThreadDumpData() {
-        Map threadDump = [threadCount: threadManagementBean.threadCount,
-                          peakThreadCount: threadManagementBean.peakThreadCount,
+        Map threadDump = [threadCount      : threadManagementBean.threadCount,
+                          peakThreadCount  : threadManagementBean.peakThreadCount,
                           daemonThreadCount: threadManagementBean.daemonThreadCount]
 
         ThreadInfo[] threadsInfo = getAllThreadsInfo()

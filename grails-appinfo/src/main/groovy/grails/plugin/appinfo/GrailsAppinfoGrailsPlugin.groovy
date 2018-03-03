@@ -3,6 +3,7 @@ package grails.plugin.appinfo
 import grails.plugin.appinfo.health.AwsS3HealthIndicator
 import grails.plugin.appinfo.health.MongodbHealthIndicator
 import grails.plugin.appinfo.health.UrlHealthIndicator
+import grails.plugin.appinfo.info.GrailsLoggingInfoContributor
 import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.Plugin
@@ -20,7 +21,7 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp"
     ]
 
     // TODO Fill in these fields
@@ -77,7 +78,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
             // first check mongodb grails plugin config, then load appinfo.health.mongodb config
             if (config.grails.mongodb) {
                 mongodbHealthCheck(MongodbHealthIndicator,
-                    ref('mongo'), config.grails.mongodb, aiConfig?.health?.mongodb
+                        ref('mongo'), config.grails.mongodb, aiConfig?.health?.mongodb
                 )
             }
 
@@ -93,7 +94,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             // check and load appinfo.health.urls config
             aiConfig?.health?.urls?.each { urlConfig ->
-                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
+                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+', '')}"(UrlHealthIndicator, urlConfig.url) {
                     if (urlConfig.method) {
                         method = urlConfig.method
                     }
@@ -114,7 +115,14 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
-        } }
+            if (Boolean.parseBoolean(aiConfig?.info?.logging?.toString())) {
+                grailsLoggingInfoContributor(GrailsLoggingInfoContributor) {
+                    grailsApplication = grailsApplication
+                }
+            }
+
+        }
+    }
 
     void doWithDynamicMethods() {
         // TODO Implement registering dynamic methods to classes (optional)

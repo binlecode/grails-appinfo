@@ -166,7 +166,16 @@ appinfo:
             s3:
                 bucket: 'some-bucket'
     info:
+        # add 'grails-system-info' to Actuator info endpoint, default (if not set) is not enabled
         system: true
-#        runtime: true # default not enabled
+        # add 'grails-logging-info' to Actuator info endpoint, default (if not set) is not enabled
         logging: true
+        # add following keys to Actuator info endpoint, default (if not set) is not enabled
+        # - 'jvm-version'
+        # - 'groovy-version'
+        # - 'grails-runtime-environment'
+        # - 'grails-reload-enabled'
+        # - 'grails-runtime-threads-info'
+        runtime: true
+
 
