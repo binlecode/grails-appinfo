@@ -51,3 +51,4 @@ logger('org.apache.http.headers', INFO, loggerList, false)
 //    logger('org.apache.http.wire', DEBUG, loggerList, false)
 
 logger('grails.plugin.appinfo', DEBUG, loggerList, false)
+logger('test.grails.appinfo', DEBUG, loggerList, false)
