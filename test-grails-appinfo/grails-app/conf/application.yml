@@ -165,6 +165,6 @@ appinfo:
                 bucket: 'some-bucket'
     info:
         system: true
-#        runtime: true
+#        runtime: true # default not enabled
         logging: true
 
