@@ -34,7 +34,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/grails-appinfo"
+    def documentation = "http://plugins.grails.org/plugin/ikalizpet/grails-appinfo"
 
     // Extra (optional) plugin metadata
 
