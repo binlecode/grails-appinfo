@@ -63,7 +63,11 @@ appinfo:
 
 ## CHANGELOG
 
-#### v2.0
+#### v 2.1
+* fix mongodb connection checking logic
+* enhance mongodb connection check with timeout window support, when timeout is reached, the connection will throw exception
+
+#### v 2.0
 * support Grails 3.3.x with Spring Boot 1.5.x and GORM 6.1.x
 
 

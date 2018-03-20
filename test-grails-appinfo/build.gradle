@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-version "0.1"
+version "2.1"
 group "test.grails.appinfo"
 
 apply plugin:"eclipse"
