@@ -63,7 +63,7 @@ appinfo:
 
 ## CHANGELOG
 
-#### v 2.1
+#### v 2.1.1
 * fix mongodb connection checking logic
 * enhance mongodb connection check with timeout window support, when timeout is reached, the connection will throw exception
 
