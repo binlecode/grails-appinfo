@@ -151,6 +151,10 @@ grails:
 # Appinfo grails plugin settings
 appinfo:
     health:
+        mongodb:
+            # connection trial timeout window to conclude db not being available
+            timeoutMillis: 1000   # default to 3000 if not specified
+#            showPassword: false
         urls:
             - url: 'http://localhost:8080'
               name: 'web root'
@@ -161,9 +165,15 @@ appinfo:
             s3:
                 bucket: 'some-bucket'
     info:
+        # add 'grails-system-info' to Actuator info endpoint, default (if not set) is not enabled
         system: true
-#        runtime: true
-        logging: true
+        # add following keys to Actuator info endpoint, default (if not set) is not enabled
+        # - 'jvm-version'
+        # - 'groovy-version'
+        # - 'grails-runtime-environment'
+        # - 'grails-reload-enabled'
+        # - 'grails-runtime-threads-info'
+        runtime: true
 
 
 
