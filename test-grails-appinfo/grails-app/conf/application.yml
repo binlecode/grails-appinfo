@@ -138,7 +138,7 @@ environments:
 ---
 grails:
     mongodb:
-        url: "mongodb://localhost/test_grails_appinfo"
+        url: "mongodb://localhost/test_grails_appinfo?ssl=false"
 
 # AWS S3 settings
 ---

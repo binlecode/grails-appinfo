@@ -37,7 +37,7 @@ class MongodbHealthIndicator extends AbstractHealthIndicator {
                 mongodbUrl = shadowUrlPassword(mongodbUrl)
             }
             builder.withDetail('url', mongodbUrl)
-            db = mongodbConfig.url.split('/')[-1]
+            db = mongodbConfig.url.split('/')[-1].split(/\?/)[0]  // extract db name from url string
         } else {
             db = mongodbConfig.databaseName
         }
