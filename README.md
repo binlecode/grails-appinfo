@@ -76,7 +76,8 @@ appinfo:
 
 ## CHANGELOG
 
-#### v1.1.1
+#### 1.2
+* fix mongodb check timeout error during healthcheck
 * enhancements of loggingInfo exposure in Actuator endpoint
 * restore runtime logger management web UI because of SpringBoot Actuator v1.4's lack of loggers RESTful endpoint 
 
