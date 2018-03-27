@@ -3,12 +3,20 @@ package grails.plugin.appinfo.health
 import org.springframework.boot.actuate.health.AbstractHealthIndicator
 import org.springframework.boot.actuate.health.Health
 
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+
 /**
  * This Mongodb healthIndicator doesn't depend on Spring mongodb template.
  * Instead, it is based on Grails Mongodb plugin supporting beans.
  * Specifically, it is using Grails 'mongo' bean, which is MongoClient instance.
  */
 class MongodbHealthIndicator extends AbstractHealthIndicator {
+    static final int DEFAULT_TIMEOUT_MILLIS = 3000
+
     final def mongoBean
     final def mongodbConfig
     final def healthMongodbConfig
@@ -22,28 +30,43 @@ class MongodbHealthIndicator extends AbstractHealthIndicator {
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
 
-        try {
-            def db
-            if (mongodbConfig.url) {
-                String mongodbUrl = mongodbConfig.url
-                if (!Boolean.parseBoolean(healthMongodbConfig?.showPassword?.toString())) {
-                    mongodbUrl = shadowUrlPassword(mongodbUrl)
-                }
-                builder.withDetail('url', mongodbUrl)
-                db = mongodbConfig.url.split('/')[-1]
-            } else {
-                db = mongodbConfig.databaseName
+        def db
+        if (mongodbConfig.url) {
+            String mongodbUrl = mongodbConfig.url
+            if (!Boolean.parseBoolean(healthMongodbConfig?.showPassword?.toString())) {
+                mongodbUrl = shadowUrlPassword(mongodbUrl)
             }
-            builder.withDetail('db', db)
+            builder.withDetail('url', mongodbUrl)
+            db = mongodbConfig.url.split('/')[-1].split(/\?/)[0]  // extract db name from url string
+        } else {
+            db = mongodbConfig.databaseName
+        }
+        builder.withDetail('db', db)
 
-            if (db && mongoBean.getDB(db)) {
-                builder.up()
-                //todo: need print out some additional info
-            } else {
-                builder.down(new Exception("MongoDB not available"))
+        long timeoutMillis = Long.parseLong(healthMongodbConfig?.timeoutMillis?.toString() ?: DEFAULT_TIMEOUT_MILLIS.toString())
+        if (db) {
+            try {
+                ExecutorService es = Executors.newSingleThreadExecutor()
+                Future ds = es.submit({ ->
+                    try {
+                        def dbStats = mongoBean.getDB(db).getStats()
+                        // ['db':'test_grails_appinfo', 'collections':0, 'views':0, 'objects':0, 'avgObjSize':0, 'dataSize':0, 'storageSize':0, 'numExtents':0, 'indexes':0, 'indexSize':0, 'fileSize':0, 'ok':1.0]
+                        builder.withDetail('stats', dbStats)
+                        builder.up()
+                        return dbStats
+                    } catch (ex) {
+                        builder.down(new Exception("MongoDB check fail: ${ex.message ?: ex.toString()}"))
+                        return null
+                    }
+                })
+
+                ds.get(timeoutMillis, TimeUnit.MILLISECONDS)  // will throw timeout exp
+                es.shutdownNow()
+            } catch (TimeoutException te) {
+                builder.down(new Exception("MongoDB check timed out after ${timeoutMillis} ms"))
             }
-        } catch (ex) {
-            builder.down("MongoDB check fail: ${ex.message ?: ex.toString()}")
+        } else {
+            builder.down(new Exception("MongoDB not available"))
         }
     }
 
