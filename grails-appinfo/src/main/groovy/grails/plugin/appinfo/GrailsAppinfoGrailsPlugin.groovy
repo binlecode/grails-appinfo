@@ -17,7 +17,7 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.2.0 > *"
 
-    def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
+    def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk', 'aws-sdk-s3']
 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
@@ -84,7 +84,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 
             // first check awssdk grails config, then load appinfo.health.aws.s3 config
             if (config.grails.plugin.awssdk) {
-                s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
+                s3HealthCheck(AwsS3HealthIndicator) {
                     def s3Cfg = aiConfig?.health?.aws?.s3
                     if (s3Cfg) {
                         s3Config = s3Cfg
@@ -129,7 +129,16 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     }
 
     void doWithApplicationContext() {
-        // TODO Implement post initialization spring config (optional)
+        // Implement post initialization spring config
+
+        // AWS SDK Grails plugin has different S3 service bean and client name from version 1.x to 2.x.
+        // We have to resolve s3Client object adaptively
+        AwsS3HealthIndicator awsS3HealthIndicator = applicationContext.getBean('s3HealthCheck')
+        if (applicationContext.containsBean('amazonWebService')) {        // for AWS SDK v 1.x
+            awsS3HealthIndicator.s3 = applicationContext.getBean('amazonWebService').s3
+        } else if (applicationContext.containsBean('amazonS3Service')) {  // for AWS SDK v 2.x
+            awsS3HealthIndicator.s3 = applicationContext.getBean('amazonS3Service').client
+        }
     }
 
     void onChange(Map<String, Object> event) {
