@@ -76,6 +76,9 @@ appinfo:
 
 ## CHANGELOG
 
+#### 1.3
+* support both AWS SDK Grails plugin version 1.x and 2.x.
+
 #### 1.2
 * fix mongodb check timeout error during healthcheck
 * enhancements of loggingInfo exposure in Actuator endpoint
