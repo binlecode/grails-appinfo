@@ -2,8 +2,6 @@ package grails.plugin.appinfo.info
 
 import grails.core.GrailsApplication
 import grails.plugin.appinfo.util.GrailsLoggingUtil
-import grails.util.Holders
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.boot.actuate.info.Info
 import org.springframework.boot.actuate.info.InfoContributor
 

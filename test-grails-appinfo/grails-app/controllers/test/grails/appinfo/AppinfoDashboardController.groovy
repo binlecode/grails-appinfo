@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugin.appinfo.AppinfoDashboardService
 import grails.plugin.appinfo.ActuatorEndpoints
 import grails.plugin.appinfo.ActuatorConfig
-
+import groovy.util.logging.Slf4j
 
 class AppinfoDashboardController {
     static namespace = "actuator"
@@ -13,6 +13,8 @@ class AppinfoDashboardController {
     ActuatorConfig actuatorConfig
 
     def index() {
+        log.debug "index called from ${controllerName}"
+
         def health  = parsedEndpointResponse(actuatorConfig.resolveUrl(ActuatorEndpoints.HEALTH))
         def info    = parsedEndpointResponse(actuatorConfig.resolveUrl(ActuatorEndpoints.INFO))
         def metrics = parsedEndpointResponse(actuatorConfig.resolveUrl(ActuatorEndpoints.METRICS))

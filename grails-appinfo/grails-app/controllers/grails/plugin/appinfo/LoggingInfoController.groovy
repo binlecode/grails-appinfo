@@ -7,7 +7,6 @@ class LoggingInfoController {
         [logs: loggingInfoService.getLoggerNameAndLevelList()] + [allLevels: LoggingInfoService.LOG_LEVELS.keySet()]
     }
 
-    @Deprecated
     def loggingInfo() {
         [logs: loggingInfoService.getLoggers()] + [allLevels: LoggingInfoService.LOG_LEVELS.keySet()]
     }

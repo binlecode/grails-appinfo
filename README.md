@@ -42,7 +42,11 @@ In host Grails application grails-app/conf/application.yml
 # Appinfo grails plugin settings
 appinfo:
     health:
-        urlList:   # list of webservice endpoints to check
+        mongodb:
+            # hide or show password in the mongodb connection url if it contains credential info
+            # if set to false (default if not set), the password will be replaced as '<pswd>'
+            showPassword: false  # default to false
+        urls:   # list of webservice endpoints to check
             - url: 'http://localhost:8080'
               name: 'web root'   # name of the endpoint
               method: 'GET'      # http method, default to 'HEAD' if not given
@@ -57,12 +61,107 @@ appinfo:
                 #    - 'bucket-name'
                 #    - 'another-bucket-name'
     info:
+        # add 'grails-system-info' to Actuator info endpoint, default (if not set) is not enabled
         system: true
-        runtime: true
+        # add 'grails-logging-info' to Actuator info endpoint, default (if not set) is not enabled
         logging: true
+        # add following keys to Actuator info endpoint, default (if not set) is not enabled
+        # - 'jvm-version'
+        # - 'groovy-version'
+        # - 'grails-runtime-environment'
+        # - 'grails-reload-enabled'
+        # - 'grails-runtime-threads-info'
+        runtime: true
 ```
 
+## SAMPLE APPLICATION
+
+The plugin provides RESTful json view by itself with endpoints as below:
+`<root-context>/` followed by `autoconfig`, `configprops`, `dump`, `env`, `health`, `info`, `metrics`, `mappings`, `shutdown`, `trace`, `beans`.
+
+Most of them are decorators of Spring Boot Actuator native endpoints. But with enhanced information and connectivity support such as mongodb, s3, generic web url endpoint, etc.
+
+For example, `localhost:8080/health` endpoint returns:
+```json
+{
+    "status": "DOWN",
+    "diskSpace": {
+        "status": "UP",
+        "total": 499963170816,
+        "free": 281595985920,
+        "threshold": 262144000
+    },
+    "urlHealthCheck_web_info": {
+        "status": "UP",
+        "url": "http://localhost:8080/info",
+        "method": "HEAD",
+        "timeout.threshold": "10000 ms"
+    },
+    "databaseHealthCheck": {
+        "status": "UP",
+        "database": "H2",
+        "hello": 1
+    },
+    "urlHealthCheck_webroot": {
+        "status": "UP",
+        "url": "http://localhost:8080",
+        "method": "GET",
+        "timeout.threshold": "10000 ms"
+    },
+    "mongodbHealthCheck": {
+        "status": "DOWN",
+        "url": "mongodb://localhost/test_grails_appinfo",
+        "db": "test_grails_appinfo",
+        "error": "java.lang.Exception: MongoDB check timed out after 3000 ms"
+    },
+    "s3HealthCheck": {
+        "status": "DOWN",
+        "endpoint": "https://s3.amazonaws.com",
+        "error": "java.lang.Exception: S3 check fail: Unable to load AWS credentials from any provider in the chain"
+    }
+}
+```
+
+The sample application also includes a Bootstrap styled dashboard with url:
+`<root-context>/appinfoDashboard` which renders information with ajax call to above endpoints.
+
+The web UI is straightforward gsp under folder `views/appinfoDashboard`, and its layout template is under folder `views/layouts/appinfo.gsp`.
+
+UI static resource files are:
+- `grails-app/assets/images/appinfo`
+- `grails-app/assets/javascripts/appinfo`
+- `grails-app/assets/stylesheets/appinfo`
+
+Here are some screenshots of v1.3 sample application UI:
+- dashboard 
+![Alt appinfo UI dashboard](screenshots/appinfo-ui-dashboard.png?raw=true "appinfo-ui dashboard")
+- URL mappings
+![Alt appinfo UI URL mappings](screenshots/appinfo-ui-mappings.png?raw=true "appinfo-ui url mappings trace")
+- http call trace
+![Alt appinfo UI http trace](screenshots/appinfo-ui-trace.png?raw=true "appinfo-ui http trace")
+- runtime beans
+![Alt appinfo UI beans](screenshots/appinfo-ui-beans.png?raw=true "appinfo-ui beans")
+
+
 ## CHANGELOG
+
+#### 1.3.1
+* fix: sample app boot-up fails when aws-s3 setting is commented out in app yaml
+* document enhancement with sample app UI dashboard config and screenshot
+
+#### 1.3
+* support both AWS SDK Grails plugin version 1.x and 2.x.
+
+#### 1.2
+* fix mongodb check timeout error during healthcheck
+* enhancements of loggingInfo exposure in Actuator endpoint
+* restore runtime logger management web UI because of SpringBoot Actuator v1.4's lack of loggers RESTful endpoint 
+
+#### v1.1
+* add password shadowing option for mongodb connection url
+
+#### v1.0
+* stable release for Grails 3.2.x, with Spring Boot 1.4 and GORM 6.0
 
 #### v0.9
 * support both multi-dataSources and single dataSource in health check

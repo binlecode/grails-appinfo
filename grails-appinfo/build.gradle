@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-version "0.9.1"
+//version "1.3"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -64,11 +64,14 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
+    title = "Grails Appinfo plugin"
     desc = "A Grails plugin to provide applicaiton system information for health-check and runtime inspection"
     developers = [binle: "Bin Le"]
 //    portalUser = ""
 //    portalPassword = ""
+
+    // with above configuration, run './gradlew bintrayUpload' command as:
+    //   bintrayUpload -DbintrayUser=ikalizpet  -DbintrayKey=f3e86cc1d...(API key given by bintray)
 }
 
 assets {

@@ -21,14 +21,8 @@ import org.springframework.boot.actuate.health.Health
  */
 @Slf4j
 class AwsS3HealthIndicator extends AbstractHealthIndicator {
-    final def awsWebService
-    final def s3
     def s3Config
-
-    AwsS3HealthIndicator(amazonWebService) {
-        this.awsWebService = amazonWebService
-        this.s3 = awsWebService.s3
-    }
+    def s3
 
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {

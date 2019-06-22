@@ -8,6 +8,7 @@ import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.boot.actuate.health.DataSourceHealthIndicator
 import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorProperties
 
@@ -15,13 +16,13 @@ import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorPropertie
 class GrailsAppinfoGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.2.3 > *"
+    def grailsVersion = "3.2.0 > *"
 
-    def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
+    def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk', 'aws-sdk-s3']
 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp"
     ]
 
     // TODO Fill in these fields
@@ -34,7 +35,7 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     def profiles = ['web']
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/grails-appinfo"
+    def documentation = "http://plugins.grails.org/plugin/ikalizpet/grails-appinfo"
 
     // Extra (optional) plugin metadata
 
@@ -75,14 +76,16 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 "databaseHealthCheck${dsNameSuffix}"(DataSourceHealthIndicator, ds)
             }
 
+            // first check mongodb grails plugin config, then load appinfo.health.mongodb config
             if (config.grails.mongodb) {
                 mongodbHealthCheck(MongodbHealthIndicator,
-                    ref('mongo'), config.grails.mongodb
+                        ref('mongo'), config.grails.mongodb, aiConfig?.health?.mongodb
                 )
             }
 
+            // first check awssdk grails config, then load appinfo.health.aws.s3 config
             if (config.grails.plugin.awssdk) {
-                s3HealthCheck(AwsS3HealthIndicator, ref('amazonWebService')) {
+                s3HealthCheck(AwsS3HealthIndicator) {
                     def s3Cfg = aiConfig?.health?.aws?.s3
                     if (s3Cfg) {
                         s3Config = s3Cfg
@@ -90,8 +93,9 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
+            // check and load appinfo.health.urls config
             aiConfig?.health?.urls?.each { urlConfig ->
-                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+','')}"(UrlHealthIndicator, urlConfig.url) {
+                "urlHealthCheck_${urlConfig.name.replaceAll('[^a-zA-Z0-9_]+', '')}"(UrlHealthIndicator, urlConfig.url) {
                     if (urlConfig.method) {
                         method = urlConfig.method
                     }
@@ -106,26 +110,41 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 }
             }
 
-            if (Boolean.parseBoolean(aiConfig?.info?.logging?.toString())) {
-                grailsLoggingInfoContributor(GrailsLoggingInfoContributor) {
-                    grailsApplication = grailsApplication
-                }
-            }
-
             if (Boolean.parseBoolean(aiConfig?.info?.runtime?.toString())) {
                 grailsRuntimeInfoContributor(GrailsRuntimeInfoContributor) {
                     grailsApplication = grailsApplication
                 }
             }
 
-        } }
+            if (Boolean.parseBoolean(aiConfig?.info?.logging?.toString())) {
+                grailsLoggingInfoContributor(GrailsLoggingInfoContributor) {
+                    grailsApplication = grailsApplication
+                }
+            }
+        }
+    }
 
     void doWithDynamicMethods() {
         // TODO Implement registering dynamic methods to classes (optional)
     }
 
     void doWithApplicationContext() {
-        // TODO Implement post initialization spring config (optional)
+        // Implement post initialization spring config
+
+        // AWS SDK Grails plugin has different S3 service bean and client name from version 1.x to 2.x.
+        // We have to resolve s3Client object adaptively.
+        //
+        // When aws s3 config is not available in yaml config, the s3HealthCheck bean is not created.
+        try {
+            AwsS3HealthIndicator awsS3HealthIndicator = applicationContext.getBean('s3HealthCheck')
+            if (applicationContext.containsBean('amazonWebService')) {        // for AWS SDK v 1.x
+                awsS3HealthIndicator.s3 = applicationContext.getBean('amazonWebService').s3
+            } else if (applicationContext.containsBean('amazonS3Service')) {  // for AWS SDK v 2.x
+                awsS3HealthIndicator.s3 = applicationContext.getBean('amazonS3Service').client
+            }
+        } catch (NoSuchBeanDefinitionException e) {
+            // TODO need any info or warning in log?
+        }
     }
 
     void onChange(Map<String, Object> event) {
