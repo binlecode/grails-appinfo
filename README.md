@@ -74,6 +74,27 @@ appinfo:
         runtime: true
 ```
 
+## SAMPLE APPLICATION
+
+The plugin provides RESTful json view by itself with endpoints as below:
+`<root-context>/` followed by `autoconfig`, `configprops`, `dump`, `env`, `health`, `info`, `metrics`, `mappings`, `shutdown`, `trace`, `beans`.
+
+Most of them are decorators of Spring Boot Actuator native endpoints. But with enhanced information and connectivity support such as mongodb, s3, generic web url endpoint, etc.
+
+The sample application also includes a Bootstrap styled dashboard with url:
+`<root-context>/appinfoDashboard` which renders information with ajax call to above endpoints.
+
+The web UI is straightforward gsp under folder `views/appinfoDashboard`, and its layout template is under folder `views/layouts/appinfo.gsp`.
+
+UI static resource files are:
+- `grails-app/assets/images/appinfo`
+- `grails-app/assets/javascripts/appinfo`
+- `grails-app/assets/stylesheets/appinfo`
+
+Here is a screenshot of v1.3 sample application dashboard:
+![Alt appinfo UI dashboard](screenshots/appinfo-ui-dashboard.png?raw=true "appinfo-ui dashboard screenshot")
+
+
 ## CHANGELOG
 
 #### 1.3
