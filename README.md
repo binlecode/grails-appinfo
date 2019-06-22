@@ -132,8 +132,15 @@ UI static resource files are:
 - `grails-app/assets/javascripts/appinfo`
 - `grails-app/assets/stylesheets/appinfo`
 
-Here is a screenshot of v1.3 sample application dashboard:
-![Alt appinfo UI dashboard](screenshots/appinfo-ui-dashboard.png?raw=true "appinfo-ui dashboard screenshot")
+Here are some screenshots of v1.3 sample application UI:
+- dashboard 
+![Alt appinfo UI dashboard](screenshots/appinfo-ui-dashboard.png?raw=true "appinfo-ui dashboard")
+- URL mappings
+![Alt appinfo UI URL mappings](screenshots/appinfo-ui-mappings.png?raw=true "appinfo-ui url mappings trace")
+- http call trace
+![Alt appinfo UI http trace](screenshots/appinfo-ui-trace.png?raw=true "appinfo-ui http trace")
+- runtime beans
+![Alt appinfo UI beans](screenshots/appinfo-ui-beans.png?raw=true "appinfo-ui beans")
 
 
 ## CHANGELOG
