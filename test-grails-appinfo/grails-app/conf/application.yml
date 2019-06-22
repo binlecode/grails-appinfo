@@ -139,24 +139,24 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
 # AWS S3 settings
-#grails:
-#    plugin:
-#        awssdk:
-#            accessKey:
-#            secretKey:
+grails:
+    plugin:
+        awssdk:
+            accessKey:
+            secretKey:
 
 ---
 # MongoDB settings
-#grails:
-#    mongodb:
-#        url: "mongodb://localhost/test_grails_appinfo"
+grails:
+    mongodb:
+        url: "mongodb://localhost/test_grails_appinfo"
 
 # Appinfo grails plugin settings
 appinfo:
     health:
         # this mongodb check is only enabled when there's a valid mongodb (plugin) configuration available
-        #mongodb:
-        #    showPassword: false
+        mongodb:
+            showPassword: false
         urls:
             - url: 'http://localhost:8080'
               name: 'web root'
@@ -164,9 +164,9 @@ appinfo:
             - url: 'http://localhost:8080/info'
               name: 'web_info'
         # s3 check is only enabled when there's a valid s3 (plugin) auth key configuration available
-        #aws:
-        #    s3:
-        #        bucket: 'some-bucket'
+        aws:
+            s3:
+                bucket: 'some-bucket'
     info:
         # add 'grails-system-info' to Actuator info endpoint, default (if not set) is not enabled
         system: true

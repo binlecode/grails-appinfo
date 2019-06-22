@@ -81,6 +81,47 @@ The plugin provides RESTful json view by itself with endpoints as below:
 
 Most of them are decorators of Spring Boot Actuator native endpoints. But with enhanced information and connectivity support such as mongodb, s3, generic web url endpoint, etc.
 
+For example, `localhost:8080/health` endpoint returns:
+```json
+{
+    "status": "DOWN",
+    "diskSpace": {
+        "status": "UP",
+        "total": 499963170816,
+        "free": 281595985920,
+        "threshold": 262144000
+    },
+    "urlHealthCheck_web_info": {
+        "status": "UP",
+        "url": "http://localhost:8080/info",
+        "method": "HEAD",
+        "timeout.threshold": "10000 ms"
+    },
+    "databaseHealthCheck": {
+        "status": "UP",
+        "database": "H2",
+        "hello": 1
+    },
+    "urlHealthCheck_webroot": {
+        "status": "UP",
+        "url": "http://localhost:8080",
+        "method": "GET",
+        "timeout.threshold": "10000 ms"
+    },
+    "mongodbHealthCheck": {
+        "status": "DOWN",
+        "url": "mongodb://localhost/test_grails_appinfo",
+        "db": "test_grails_appinfo",
+        "error": "java.lang.Exception: MongoDB check timed out after 3000 ms"
+    },
+    "s3HealthCheck": {
+        "status": "DOWN",
+        "endpoint": "https://s3.amazonaws.com",
+        "error": "java.lang.Exception: S3 check fail: Unable to load AWS credentials from any provider in the chain"
+    }
+}
+```
+
 The sample application also includes a Bootstrap styled dashboard with url:
 `<root-context>/appinfoDashboard` which renders information with ajax call to above endpoints.
 
