@@ -138,6 +138,10 @@ Here is a screenshot of v1.3 sample application dashboard:
 
 ## CHANGELOG
 
+#### 1.3.1
+* fix: sample app boot-up fails when aws-s3 setting is commented out in app yaml
+* document enhancement with sample app UI dashboard config and screenshot
+
 #### 1.3
 * support both AWS SDK Grails plugin version 1.x and 2.x.
 
