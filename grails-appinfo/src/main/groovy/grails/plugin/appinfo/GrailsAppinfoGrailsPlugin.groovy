@@ -8,6 +8,7 @@ import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.boot.actuate.health.DataSourceHealthIndicator
 import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorProperties
 
@@ -120,7 +121,6 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                     grailsApplication = grailsApplication
                 }
             }
-
         }
     }
 
@@ -132,12 +132,18 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
         // Implement post initialization spring config
 
         // AWS SDK Grails plugin has different S3 service bean and client name from version 1.x to 2.x.
-        // We have to resolve s3Client object adaptively
-        AwsS3HealthIndicator awsS3HealthIndicator = applicationContext.getBean('s3HealthCheck')
-        if (applicationContext.containsBean('amazonWebService')) {        // for AWS SDK v 1.x
-            awsS3HealthIndicator.s3 = applicationContext.getBean('amazonWebService').s3
-        } else if (applicationContext.containsBean('amazonS3Service')) {  // for AWS SDK v 2.x
-            awsS3HealthIndicator.s3 = applicationContext.getBean('amazonS3Service').client
+        // We have to resolve s3Client object adaptively.
+        //
+        // When aws s3 config is not available in yaml config, the s3HealthCheck bean is not created.
+        try {
+            AwsS3HealthIndicator awsS3HealthIndicator = applicationContext.getBean('s3HealthCheck')
+            if (applicationContext.containsBean('amazonWebService')) {        // for AWS SDK v 1.x
+                awsS3HealthIndicator.s3 = applicationContext.getBean('amazonWebService').s3
+            } else if (applicationContext.containsBean('amazonS3Service')) {  // for AWS SDK v 2.x
+                awsS3HealthIndicator.s3 = applicationContext.getBean('amazonS3Service').client
+            }
+        } catch (NoSuchBeanDefinitionException e) {
+            // TODO need any info or warning in log?
         }
     }
 
