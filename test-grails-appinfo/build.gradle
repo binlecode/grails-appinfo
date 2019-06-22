@@ -53,16 +53,17 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
-    //////
-    compile 'joda-time:joda-time:2.8.2'  // used in ui dashboard service
-    runtime 'org.grails.plugins:grails-console:2.0.8'  // runtime web console
-    ////// test with different AWS Grails plugin versions
+    // used in ui dashboard service
+    compile 'joda-time:joda-time:2.8.2'
+    // runtime web console support
+    runtime 'org.grails.plugins:grails-console:2.0.8'
+    // host application can use either AWS Grails plugin 1.x or 2.x versions
 //    compile 'org.grails.plugins:aws-sdk:1.10.44'
     compile 'org.grails.plugins:aws-sdk-s3:2.1.5'
-    //////
+    //
     compile "org.grails.plugins:mongodb:6.0.11"
-    //////
-    compile project(':grails-appinfo')
+    //
+    compile project(':grails-appinfo')  // direct gradle sub-project loading for development
 //    compile 'org.grails.plugins:grails-appinfo:1.3'
 }
 
