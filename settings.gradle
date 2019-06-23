@@ -11,6 +11,7 @@
 
 
 // To declare projects as part of a multi-project build use the 'include' method
+include 'grails-appinfo-ui'
 include 'grails-appinfo'
 include 'test-grails-appinfo'
 

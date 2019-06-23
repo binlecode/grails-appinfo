@@ -8,3 +8,7 @@ apply plugin: 'eclipse'
 // ext {
     // gradleWrapperVersion = 3.5
 // }
+
+subprojects {
+    version = '2.1.1'
+}
