@@ -125,7 +125,10 @@ For example, `localhost:8080/health` endpoint returns:
 The sample application also includes a Bootstrap styled dashboard with url:
 `<root-context>/appinfoDashboard` which renders information with ajax call to above endpoints.
 
-The web UI is straightforward gsp under folder `views/appinfoDashboard`, and its layout template is under folder `views/layouts/appinfo.gsp`.
+The web UI components are straightforward:
+- gsp in folder `views/appinfoDashboard`
+- layout template `views/layouts/appinfo.gsp`
+- taglib `taglib/grails/plugin/appinfo/AvatarTaglib.groovy`
 
 UI static resource files are:
 - `grails-app/assets/images/appinfo`
