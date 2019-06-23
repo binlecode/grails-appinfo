@@ -39,5 +39,3 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
 }
 
 root(ERROR, ['STDOUT'])
-
-

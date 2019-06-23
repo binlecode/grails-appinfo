@@ -7,6 +7,7 @@ import grails.plugin.appinfo.info.GrailsRuntimeInfoContributor
 import grails.plugin.appinfo.info.GrailsSystemInfoContributor
 import grails.plugins.*
 import groovy.util.logging.Slf4j
+
 import org.springframework.boot.actuate.health.DataSourceHealthIndicator
 import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorProperties
 
@@ -16,6 +17,7 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.3.0 > *"
 
+    // make sure to load after these plugins if they exist
     def loadAfter = ['dataSources', 'services', 'mongodb', 'aws-sdk']
 
     // resources that are excluded from plugin packaging
@@ -29,7 +31,6 @@ class GrailsAppinfoGrailsPlugin extends Plugin {
     def description = '''
 Appinfo Grails plugin provides additional application info via Spring boog actuator endpoints.
 '''
-    def profiles = ['web']
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-appinfo"
@@ -52,7 +53,6 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
     Closure doWithSpring() { {->
-
         // appinfo plugin Grails config holder
         def aiConfig = config.appinfo
 
@@ -112,7 +112,6 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
                 grailsApplication = grailsApplication
             }
         }
-
     } }
 
     void doWithDynamicMethods() {
