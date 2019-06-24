@@ -1,4 +1,4 @@
-package grails.plugin.appinfo
+
 
 class UrlMappings {
 

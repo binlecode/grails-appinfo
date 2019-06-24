@@ -1,6 +1,6 @@
 package grails.plugin.appinfo
 
-
+import grails.plugin.appinfo.ui.ActuatorConfig
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
 
@@ -48,7 +48,12 @@ Appinfo Grails plugin provides additional application info via Spring boog actua
     Closure doWithSpring() { {->
 
         // appinfo ui plugin Grails config holder
-        def aiConfig = config.appinfo.ui
+//        def aiConfig = config.appinfo.ui
+
+        actuatorConfig(ActuatorConfig) {
+            endpointsProperties = application.config.getProperty('endpoints', Map, [:])
+            managementProperties = application.config.getProperty('management', Map, [:])
+        }
 
     } }
 

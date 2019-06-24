@@ -53,6 +53,13 @@ dependencies {
     testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+    // used in ui dashboard service
+    compile 'joda-time:joda-time:2.8.2'
+    // load appinfo plugin
+    compile project(':grails-appinfo')
+//    compile 'org.grails.plugins:grails-appinfo:2.0'
+
 }
 
 bootRun {
