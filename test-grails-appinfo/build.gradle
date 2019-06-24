@@ -62,13 +62,11 @@ dependencies {
     compile "org.grails.plugins:mongodb:6.1.2"
     compile "org.grails.plugins:aws-sdk:1.10.74"
 
-    //// pick either:
-    //// - appinfo plugin, then only RESTful actuator JSON view is provided
-    //// - appinfi-ui plugin, then a web html dashboard UI is provided based on AdminLTE theme framework
-
+    // pick either plugin option:
+    // - appinfo plugin, then only RESTful actuator JSON view is provided
 //    compile project(':grails-appinfo')
 //    compile 'org.grails.plugins:grails-appinfo:2.0'
-
+    // - appinfo-ui plugin, then a web html dashboard UI is provided based on AdminLTE theme framework
     compile project(':grails-appinfo-ui')
 //    compile 'org.grails.plugins:grails-appinfo-ui:2.2'
 

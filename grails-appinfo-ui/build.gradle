@@ -77,8 +77,8 @@ grailsPublish {
     license {
         name = 'Apache-2.0'
     }
-    title = "Grails Appinfo plugin"
-    desc = "A Grails plugin to provide applicaiton system information for health-check and runtime inspection"
+    title = "Grails Appinfo UI plugin"
+    desc = "A Grails plugin to provide UI dashboard of applicaiton system information for health-check and runtime inspection"
     developers = [binle: "Bin Le"]
 //    portalUser = ""
 //    portalPassword = ""
