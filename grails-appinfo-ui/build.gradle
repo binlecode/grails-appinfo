@@ -56,6 +56,8 @@ dependencies {
 
     // used in ui dashboard service
     compile 'joda-time:joda-time:2.8.2'
+    // runtime web console
+    runtime 'org.grails.plugins:grails-console:2.1.1'
     // load appinfo plugin
     compile project(':grails-appinfo')
 //    compile 'org.grails.plugins:grails-appinfo:2.0'

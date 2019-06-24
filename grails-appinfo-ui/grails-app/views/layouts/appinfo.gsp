@@ -29,7 +29,7 @@
     <header class="main-header">
         <g:link action="index" class="logo">
             <span class="logo-mini"><b class="fa fa-bolt"></b></span>
-            <span class="logo-lg"><b><i class="fa fa-bolt"></i> Admin</b></span>
+            <span class="logo-lg"><b><i class="fa fa-bolt"></i> Appinfo</b></span>
         </g:link>
         <nav class="navbar navbar-static-top" role="navigation">
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -51,7 +51,7 @@
                             <g:link controller="console"
                                     action="index"
                                     plugin="console"
-                                    title="Open Console"
+                                    title="Open Web Console"
                                     target="_blank" aria-expanded="false">
                                 <i class="fa fa-edit"></i>
                             </g:link>
@@ -59,7 +59,7 @@
                     </plugin:isAvailable>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <appinfo:avatar default="appinfo/avatar5.png" cssClass="user-image" alt="User Image"/>
+                            <appinfo:avatar default="appinfo/avatar-48.png" cssClass="user-image" alt="User Image"/>
 
                             <span class="hidden-xs">
                                 <plugin:isAvailable name="spring-security-core">
@@ -74,7 +74,7 @@
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                            <appinfo:avatar default="appinfo/avatar5.png" cssClass="img-circle" alt="User Image"/>
+                            <appinfo:avatar default="appinfo/avatar-48.png" cssClass="img-circle" alt="User Image"/>
                                 <p>
                                     <plugin:isAvailable name="spring-security-core">
                                         <sec:ifLoggedIn><sec:username/></sec:ifLoggedIn>
@@ -109,9 +109,8 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <appinfo:avatar default="appinfo/avatar5.png" cssClass="img-circle" alt="User Image"/>
+                    <appinfo:avatar default="appinfo/avatar-96.png" cssClass="img-circle" alt="User Image"/>
                 </div>
-
                 <div class="pull-left info">
                     <p>
                         <plugin:isAvailable name="spring-security-core">
