@@ -166,6 +166,9 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <g:if test="${actionName != 'index'}">
+                    <li><a href="#"> ${actionName}</a></li>
+                </g:if>
             </ol>
         </section>
 

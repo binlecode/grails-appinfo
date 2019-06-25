@@ -59,8 +59,8 @@ dependencies {
     // runtime web console
     runtime 'org.grails.plugins:grails-console:2.1.1'
     // load appinfo plugin
-    compile project(':grails-appinfo')
-//    compile 'org.grails.plugins:grails-appinfo:2.0'
+//    compile project(':grails-appinfo')
+    compile 'org.grails.plugins:grails-appinfo:2.2'
 
 }
 
